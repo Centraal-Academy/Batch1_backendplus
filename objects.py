@@ -1,49 +1,44 @@
 class User:
-    '''Clase Usuario. Parametros:
-    name : nombre del usuario'''
+    '''Objeto user, recibe argumento name para inicializar'''
     def __init__(self, name):
         self.name = name
-
-    def get_name(self):
-        return self.name
-
-class Student(User):
-    '''Student inherits from User \n
-    Arguments : name for superclass and \n
-    program for student program'''
-
-    __logging = ''
-
-    def __init__(self, name, program):
-        User.__init__(self, name)
-        self.program = program
-        self._date = "sep 26"
+        self.__last_name = ''
+        self._dateAdded = ''
 
     @property
     def date(self):
-        print("get method")
-        return self._date
+        print('soy un getter')
+        return self._dateAdded
 
     @date.setter
     def date(self, value):
-        print("set method")
-        raise NameError("date is an only-read property")
+        raise NameError("El atributo es de solo lectura")
 
-    def __log(self, log_info):
-        self.__logging = log_info
-        print(self.__logging)
-
+    def __log(self):
+        print("se ejecuto algo")
+        
+    def give_me_last_name(self, value):
+        '''funcion para poner apellido'''
+        self.__last_name = value
+        self.__log()
+    
     def get_complete_name(self):
-        '''get user complete name'''
-        self.__log("return complete name")
-        return self.get_name() + self.program
+        return self.name + ' ' + self.__last_name
+
+class Student(User):
+    '''Clase para estudiantes, hereda de user, recibe argumentos de padre'''
+    def __init__(self, name, program):
+        User.__init__(self, name)
+        self.program = program
+
+    def __get_program(self):
+        return self.program
 
     def __repr__(self):
-        return repr(self.name + ' ' + self.program)
-
-class Counter:
-    '''counter class'''
-    count = 0
-
-    def __init__(self):
-        self.__class__.count += 1
+        return self.get_complete_name() + ' ' + self.__get_program()
+    
+    def give_me_last_name(self, value, new_program):
+        '''OVERRIDE : funcion para poner apellido y programa'''
+        self.__last_name = value
+        self.program = new_program
+        
