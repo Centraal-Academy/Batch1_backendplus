@@ -1,5 +1,6 @@
 import unittest
 import functions
+import my_exceptions as exc
 
 class TestFunctions(unittest.TestCase):
 
@@ -21,6 +22,8 @@ class TestFunctions(unittest.TestCase):
             functions.add_by(5,'hola')
             functions.add_by(5,False)
             functions.add_by(5,[1,2,3,4])
+        with self.assertRaises(exc.AnotherError):
+            functions.sum_by(1,1)
 
 
 if __name__ == '__main__':

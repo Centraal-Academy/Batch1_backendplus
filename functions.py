@@ -1,3 +1,5 @@
+import my_exceptions as exc
+
 def add_by(value1, value2):
     '''product of two values'''
     try:
@@ -9,6 +11,8 @@ def add_by(value1, value2):
 
 def sum_by(value1, value2):
     '''product of two values'''
+    if value1 == 1:
+        raise exc.AnotherError("El valor introducido por el usuario en value1 fue 1","ya cache un error personalizado")
     return value1 + value2
 
 def compareValue(value):
