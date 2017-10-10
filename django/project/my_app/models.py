@@ -26,11 +26,30 @@ class Program(models.Model):
     def __str__(self):
         return f"El programa es: {self.name}"
 
+class PersonQuerySet(models.QuerySet):
+    def younger(self):
+        return self.filter(age__lte=25)
+
+    def older(self):
+        return self.filter(age__gte=30)
+
+class PersonManager(models.Manager):
+    def get_queryset(self):
+        return PersonQuerySet(self.model, using=self._db)
+
+    def younger(self):
+        return self.get_queryset().younger()
+
+    def older(self):
+        return self.get_queryset().older()
+
 class Person(models.Model):
     name = models.CharField(max_length=150)
     email = models.EmailField(max_length=255)
     program = models.ForeignKey(Program, related_name="program_person")
     age = models.IntegerField(default=0, help_text="solo numeros", validators=[validators.age_validation])
+
+    objects = PersonManager()
 
     def __str__(self):
         return self.email

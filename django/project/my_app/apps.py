@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 class MyAppConfig(AppConfig):
     name = 'my_app'
@@ -8,4 +8,4 @@ class MyAppConfig(AppConfig):
     def ready(self):
         from .signals import notification
         from . import models
-        post_save.connect(notification, sender=models.Program)
+        pre_save.connect(notification, sender=models.Program)
