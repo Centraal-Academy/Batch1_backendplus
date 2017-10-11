@@ -18,6 +18,7 @@ from django.contrib import admin
 from my_app import urls
 import django.contrib.auth.urls
 
+
 urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')),
     url(r'new_app/', include('my_app.urls')),

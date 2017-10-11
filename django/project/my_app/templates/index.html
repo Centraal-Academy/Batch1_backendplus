@@ -6,7 +6,13 @@
 {% endblock header %}
 
 {% block body %}
-    
+    {{greet}}
+
+    <ul>
+        {% for x in collection %}
+            <li>{{ x }}</li>
+        {% endfor %}
+    </ul>
 
     <ul>
         {% for x in collection %}
