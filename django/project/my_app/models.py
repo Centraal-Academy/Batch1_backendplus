@@ -18,6 +18,9 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
 class Program(models.Model):
     name = models.CharField(max_length=50)
     instructor = models.CharField(max_length=50)
@@ -54,5 +57,8 @@ class Person(models.Model):
     def __str__(self):
         return self.email
 
+class EventPerson(models.Model):
+    event = models.ForeignKey(Event, related_name="event_person")
+    person = models.ForeignKey(Person, related_name="person_event")
 
     

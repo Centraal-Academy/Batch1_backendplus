@@ -11,4 +11,9 @@ urlpatterns = [
     url(r'^create/$', views.PersonCreate.as_view(), name="create"),
     url(r'^update/(?P<pk>[0-9]+)/$', views.PersonUpdate.as_view(), name="update"),
     url(r'^delete/(?P<pk>[0-9]+)/$', views.PersonDelete.as_view(), name="delete"),
+    url(r'^form/$', views.ContactFormView.as_view(), name="form"),
+    url(r'^formset/$', views.EventPersonFormset, name="formset"),
+    
+    
+  
 ]

@@ -106,3 +106,76 @@ class PersonDelete(DeleteView):
     model = models.Person
     template_name = 'delete_confirm.html'
     success_url = reverse_lazy('list')
+
+#forms
+from . import forms
+
+class ContactView(View):
+    def get(self, request, *args, **kwargs):
+        form = forms.ContactForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = forms.ContactForm(request.POST)
+        
+        if form.is_valid():
+            print(form.cleaned_data['name'])
+            form = forms.ContactForm()
+
+        return render(request, 'form.html', {'form':form})
+
+from django.views.generic.edit import FormView
+
+class ContactFormView(FormView):
+        template_name = 'form.html'
+        form_class = forms.PersonModelForm
+        success_url = reverse_lazy('list')
+
+        def form_valid(self, form):
+
+            return super(ContactFormView, self).form_valid(form)
+
+
+from django.forms.formsets import formset_factory
+from django.db import IntegrityError, transaction
+from django.contrib import messages
+#formset
+def EventPersonFormset(request):
+
+    event_formset = formset_factory(forms.DetailEventForm, formset=forms.BaseFormSet, extra=3)
+    programs = models.Program.objects
+    events = models.Event.objects
+
+    if request.method == 'POST':
+        person_form = forms.PersonForm(request.POST)
+        detail_formset = event_formset(request.POST)
+
+        if person_form.is_valid() and detail_formset.is_valid():
+            person = models.Person()
+            person.name = person_form.cleaned_data['name']
+            person.email = person_form.cleaned_data['email']
+            person.age = person_form.cleaned_data['age']
+            person.program = programs.get(pk=person_form.cleaned_data["program"])
+            person.save()
+
+            new_events = []
+
+            for event_form in detail_formset:
+                event = events.get(pk=event_form.cleaned_data["event"])
+                new_events.append(models.EventPerson(event = event, person=person))
+
+            try:
+                with transaction.atomic():
+                    models.EventPerson.objects.bulk_create(new_events)
+                    messages.success(request, "todo salio bien")
+                
+            except IntegrityError:
+                message.error(request, 'hubo un pedo')
+                return redirect(reverse_lazy('list'))
+    else:
+        person_form = forms.PersonForm()
+        detail_formset = event_formset()
+
+    return render(request, 'formset.html', {"person_form": person_form, 
+                                            "detail_formset" : detail_formset
+                                            })
