@@ -13,7 +13,5 @@ urlpatterns = [
     url(r'^delete/(?P<pk>[0-9]+)/$', views.PersonDelete.as_view(), name="delete"),
     url(r'^form/$', views.ContactFormView.as_view(), name="form"),
     url(r'^formset/$', views.EventPersonFormset, name="formset"),
-    
-    
-  
+    url(r'^search/$', views.Search, name="search"),
 ]

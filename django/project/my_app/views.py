@@ -179,3 +179,14 @@ def EventPersonFormset(request):
     return render(request, 'formset.html', {"person_form": person_form, 
                                             "detail_formset" : detail_formset
                                             })
+#filters
+from .filters import PersonFilter
+from django.http import HttpResponse
+
+
+def Search(request):
+        # print(request.url)
+        person_list = models.Person.objects.all()
+        person_filter = PersonFilter(request.GET, queryset=person_list)
+        
+        return render(request, 'search.html', {'filter': person_filter})

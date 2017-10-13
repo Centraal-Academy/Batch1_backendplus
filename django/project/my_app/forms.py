@@ -71,3 +71,8 @@ class BaseFormSet(BaseFormSet):
                 event = form.cleaned_data["event"]
                 if event:
                     events.append(event)
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label='', widget=forms.TextInput(attrs={
+                                            'placeholder': 'search',
+                                        }))
