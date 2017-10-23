@@ -182,11 +182,21 @@ def EventPersonFormset(request):
 #filters
 from .filters import PersonFilter
 from django.http import HttpResponse
+from django.http import JsonResponse
+import json
+from django.core import serializers
 
+def search_name(request):
+    name = request.GET.get('name', None)
+    person_list = models.Person.objects.all()
+    
+    person_filter = PersonFilter(request.GET, queryset=person_list)
+    data = serializers.serialize("json", person_filter.qs)
+    print(data)
+    return JsonResponse(data, safe=False)
 
 def Search(request):
         # print(request.url)
         person_list = models.Person.objects.all()
         person_filter = PersonFilter(request.GET, queryset=person_list)
-        
         return render(request, 'search.html', {'filter': person_filter})

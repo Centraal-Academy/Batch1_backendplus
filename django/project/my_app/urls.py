@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^form/$', views.ContactFormView.as_view(), name="form"),
     url(r'^formset/$', views.EventPersonFormset, name="formset"),
     url(r'^search/$', views.Search, name="search"),
+    url(r'^search/ajax/$', views.search_name, name="search_name"),
+    
 ]
