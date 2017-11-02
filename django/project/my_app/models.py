@@ -27,7 +27,7 @@ class Program(models.Model):
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"El programa es: {self.name}"
+        return "El programa es:" + {self.name}
 
 class PersonQuerySet(models.QuerySet):
     def younger(self):
