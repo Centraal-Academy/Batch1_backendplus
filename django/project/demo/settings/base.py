@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q%p-ydu^j5$7p87ffeu&ce9*+n-1)mq--^*eyf$+ek5#)vt*ds'
+SECRET_KEY = os.environ.get('SECRET_KEY') #'q%p-ydu^j5$7p87ffeu&ce9*+n-1)mq--^*eyf$+ek5#)vt*ds'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -146,19 +148,7 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        },
-        'NAME': 'django_demo',
-        'USER': 'root',
-        'PASSWORD:': 'M3-W4/6h0&$2',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-}
+
 
 
 # Internationalization
