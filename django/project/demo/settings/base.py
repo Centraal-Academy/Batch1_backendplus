@@ -43,7 +43,14 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'oauth2_provider',
     'corsheaders',
+    # 'channels',
+    'real_time',
+    'graphene_django',
 )
+
+GRAPHENE = {
+    'SCHEMA': 'my_app.schema.schema',
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,6 +62,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    # 'my_app.middleware.DemoMiddleware',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -66,9 +74,11 @@ OAUTH2_PROVIDER = {
     'ACCESS_TOKEN_EXPIRE_SECONDS' : 4300,
 }
 
+from datetime import timedelta
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    # 'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 REST_FRAMEWORK = {
@@ -85,17 +95,27 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',        
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',        
+    # ),
 
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'rest_framework.authentication.BasicAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.TokenAuthentication',
-        #'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     #'rest_framework.authentication.BasicAuthentication',
+    #     #'rest_framework.authentication.SessionAuthentication',
+    #     #'rest_framework.authentication.TokenAuthentication',
+    #     #'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'real_time.routing.channel_routing',
+    }
 }
 
 ROOT_URLCONF = 'demo.urls'
@@ -106,6 +126,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'my_app', 'templates'),
+            os.path.join(BASE_DIR, 'real_time', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

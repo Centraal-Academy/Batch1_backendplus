@@ -1,6 +1,8 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from . import views
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -15,5 +17,6 @@ urlpatterns = [
     url(r'^formset/$', views.EventPersonFormset, name="formset"),
     url(r'^search/$', views.Search, name="search"),
     url(r'^search/ajax/$', views.search_name, name="search_name"),
+    url(r'^graphql/$', GraphQLView.as_view(graphiql=True)),
     
 ]
