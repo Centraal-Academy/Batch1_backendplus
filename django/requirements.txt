@@ -38,7 +38,7 @@ requests==2.18.4
 Rx==1.6.0
 singledispatch==3.4.0.3
 six==1.11.0
-Twisted==17.9.0
+Twisted==22.2.0
 txaio==2.8.2
 txredisapi==1.4.4
 typing==3.6.2
